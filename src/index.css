@@ -1,0 +1,299 @@
+@import url("https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
+
+ 
+@theme {
+  /* Font Families */
+  --font-sans: "Mona Sans", ui-sans-serif, system-ui, sans-serif,
+               "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-montserrat: "Montserrat", sans-serif;
+  --font-jakarta: "Plus Jakarta Sans", sans-serif;
+  --font-raleway: "Raleway", sans-serif;
+
+  /* Color Palette */
+  --color-primary: #0066FF;
+  --color-primary-dark: #082567;
+  --color-secondary: #22C55E;
+  --color-accent: #F59E0B;
+  --color-bg-light: rgba(153, 230, 255, 0.05);
+  --color-bg-dark: #111827;
+  --color-card: #FFFFFF;
+  --color-border: #E5E7EB;
+  --color-text-dark: #111827;
+  --color-text-muted: #6B7280;
+
+  /* You might need to define these as custom utilities */
+  --color-bg-gradient-hero: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+  --color-bg-gradient-accent: linear-gradient(to right, var(--color-accent), var(--color-secondary));
+}
+
+/* Define custom utilities for gradients */
+@utility bg-gradient-hero {
+  background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+  color: white;
+}
+
+@utility bg-gradient-accent {
+  background: linear-gradient(to right, var(--color-accent), var(--color-secondary));
+  color: white;
+}
+
+
+/* Custom utility classes */
+@utility btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  border-radius: 10rem;
+  padding: 0.9rem 1.8rem;
+  font-size: 0.7rem;
+  transition: all 300ms;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+@utility card {
+  background: var(--color-card);
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 1.5rem;
+  border: 1px solid var(--color-border);
+  transition: all 200ms;
+}
+
+@utility card-hover {
+  boxShadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+html,
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg-light);
+  color: var(--color-text-dark);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1 {
+  /* font-size: 6rem; */
+  line-height: 1;
+  letter-spacing: -0.07em;
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 3rem;
+}
+
+p {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--color-text-muted);
+}
+
+input, textarea {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 1rem;
+  background: white;
+  border: 1px solid var(--color-border);
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
+  width: 100%;
+}
+
+/* Button variants */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+  
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+    box-shadow: 0 10px 20px rgba(35, 76, 209, 0.5);
+}
+
+.btn-secondary {
+  background-color: white;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+}
+
+/* Card components */
+.card-header {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.card-body {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+/* Section styles */
+.section {
+  padding: 5rem 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding: 5rem 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section {
+    padding: 5rem 5rem;
+  }
+}
+
+.section-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .section-title {
+    font-size: 2.25rem;
+  }
+}
+
+.section-subtitle {
+  font-size: 1.125rem;
+  color: var(--color-text-muted);
+  text-align: center;
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2.5rem;
+}
+
+/* Navigation */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: white;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.nav-link {
+  color: var(--color-text-dark);
+  transition: color 200ms;
+}
+
+.nav-link:hover {
+  color: var(--color-primary);
+}
+
+/* Footer */
+.footer {
+  background: var(--color-bg-dark);
+  color: white;
+  padding: 2.5rem 1rem;
+  text-align: center;
+  font-size: 0.875rem;
+}
+
+.footer-link {
+  color: white;
+  transition: color 200ms;
+}
+
+.footer-link:hover {
+  color: var(--color-accent);
+}
+
+/* Form elements */
+.label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  color: var(--color-text-dark);
+}
+
+/* Badges */
+.badge-green {
+  background-color: rgb(209, 250, 229);
+  color: rgb(6, 95, 70);
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+}
+
+.badge-red {
+  background-color: rgb(254, 226, 226);
+  color: rgb(153, 27, 27);
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+}
+
+.badge-yellow {
+  background-color: rgb(254, 243, 199);
+  color: rgb(116, 66, 16);
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+}
+
+/* Special components */
+.chart-container {
+  background: var(--color-card);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--color-border);
+}
+
+.stat-card {
+  background: var(--color-card);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cta-button {
+  background-color: var(--color-primary);
+  color: white;
+  font-size: 1.125rem;
+  padding: 0.75rem 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  transition: all 300ms;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/*  */
+.shadow{
+  box-shadow: 0 10px 15px rgba(153, 230, 255, 0.3),
+            0 20px 25px rgba(15, 82, 186, 0.15);
+
+}
