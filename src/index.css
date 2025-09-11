@@ -82,28 +82,24 @@ h1 {
   font-weight: 600;
 }
 
-h2 {
-  font-size: 3rem;
-}
-
+ 
 p {
-  font-size: 1rem;
-  line-height: 1.75;
-  color: var(--color-text-muted);
+  cursor: pointer;
+  /* color: var(--color-text-muted); */
 }
 
-input, textarea {
+/* input, textarea {
   width: 100%;
   padding: 1rem;
   border-radius: 1rem;
   background: white;
   border: 1px solid var(--color-border);
-}
+} */
 
-input:focus, textarea:focus {
+/* input:focus, textarea:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
-}
+} */
 
 form {
   display: flex;
@@ -295,5 +291,10 @@ form {
 .shadow{
   box-shadow: 0 10px 15px rgba(153, 230, 255, 0.3),
             0 20px 25px rgba(15, 82, 186, 0.15);
+
+}
+
+.shadow-small{
+  box-shadow:  0 5px 20px rgba(15, 82, 186, 0.15);
 
 }

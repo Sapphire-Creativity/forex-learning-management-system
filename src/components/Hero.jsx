@@ -1,6 +1,7 @@
 import { ReactTyped } from "react-typed";
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 const Hero = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -14,8 +15,21 @@ const Hero = () => {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
+  //
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"], // triggers movement based on viewport
+  });
+
+  // Parallax effect: move chart slightly as user scrolls
+  const y = useTransform(scrollYProgress, [0, 1], [0, 80]);
+
   return (
-    <div className="relative flex flex-col items-center justify-center h-screen text-center overflow-hidden bg-gray-50">
+    <section
+      id="home"
+      className="relative flex flex-col items-center justify-center h-[110vh] text-center overflow-hidden bg-gray-50"
+    >
       {/*  */}
 
       {/* Soft blur glow top-right with drift */}
@@ -95,6 +109,23 @@ const Hero = () => {
           </motion.button>
         </div>
       </div>
+
+      {/* Chart image */}
+      <motion.div
+        ref={ref}
+        initial={{ y: 150, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
+        style={{ y }}
+        className="absolute -bottom-0 md:-bottom-40 left-1/2 -translate-x-1/2 w-[95%] max-w-6xl"
+      >
+        <img
+          src="src/assets/chart.png"
+          alt="Forex Chart"
+          className="w-full object-cover rounded-t-3xl shadow-2xl"
+        />
+      </motion.div>
+
       {/* Animated scroll indicator */}
       <motion.div
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
@@ -105,7 +136,7 @@ const Hero = () => {
           <div className="w-1 h-3 bg-primary rounded-full mt-2"></div>
         </div>
       </motion.div>
-    </div>
+    </section>
   );
 };
 
