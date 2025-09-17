@@ -7,14 +7,22 @@ import TestimonialSection from "../components/TestimonialSection";
 import Footer from "../components/Footer";
 import Faq from "../components/Faq";
 import ScrollProgressCircle from "../components/ScrollProgressCircle";
+import MentorsSection from "../components/MentorsSection";
+import Navbar from "../components/Navbar";
 
 const Home = () => {
   return (
-    <div>
+    <>
+      <Navbar />
+
       <Hero />
       <AboutSection />
       <Features />
       {/*  */}
+
+      {/* Mentors Section */}
+      <MentorsSection />
+
       {/* Chart Section */}
       <section className="relative h-[100vh] w-full flex flex-col items-center justify-start bg-gradient-to-b from-[rgb(248,251,255)] to-white overflow-hidden">
         <div className="max-w-6xl mx-auto text-center px-6 relative z-10 pt-16">
@@ -73,9 +81,9 @@ const Home = () => {
       {/*  */}
       <Faq />
       {/*  */}
-      <ScrollProgressCircle/>
+      <ScrollProgressCircle />
       <Footer />
-    </div>
+    </>
   );
 };
 

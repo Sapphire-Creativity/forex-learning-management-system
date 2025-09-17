@@ -1,26 +1,29 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useSignIn } from "@clerk/clerk-react";
+import { useSignUp } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import EmailVerification from "../../components/EmailVerification";
 
-const Login = () => {
-  const { isLoaded, signIn, setActive } = useSignIn();
+const AuthPage = () => {
+  const { isLoaded, signUp, setActive } = useSignUp();
   const [pendingVerification, setPendingVerification] = useState(false);
   const [code, setCode] = useState("");
   const navigate = useNavigate();
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
 
   const [isLogin, setIsLogin] = useState(true);
 
   const [formData, setFormData] = useState({
+    firstname: "",
+    lastname: "",
     email: "",
     password: "",
+    confirmPassword: "",
     role: "student",
   });
 
   const [errors, setErrors] = useState({});
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,6 +44,20 @@ const Login = () => {
       newErrors.email = "Email is invalid";
     }
 
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+    } else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+
+    if (!isLogin) {
+      if (!formData.confirmPassword) {
+        newErrors.confirmPassword = "Please confirm your password";
+      } else if (formData.password !== formData.confirmPassword) {
+        newErrors.confirmPassword = "Passwords do not match";
+      }
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -55,50 +72,40 @@ const Login = () => {
       return;
     }
 
+    console.log("initialized!");
     try {
-      const result = await signIn.create({
-        identifier: formData.email,
+      await signUp.create({
+        firstName: formData.firstname,
+        lastName: formData.lastname,
+        emailAddress: formData.email,
         password: formData.password,
+        unsafeMetadata: {
+          role: formData.role,
+          onboarded: false,
+        },
       });
+      console.log("process 1 executed");
 
-      console.log(result);
-
-      if (result.status === "complete") {
-        await setActive({ session: result.createdSessionId });
-
-        //
-        const isVerified =
-          result.user?.primaryEmailAddress?.verification.status === "verified";
-        if (!isVerified) {
-          setPendingVerification(true);
-        } else {
-          navigate("/post-auth");
-        }
-      } else {
-        console.log("Unexpected login status:", result);
-      }
+      // request email verification
+      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+      setPendingVerification(true);
+      console.log("process 2 executed");
     } catch (error) {
-      console.error("Sign in error: ", error);
-      const message =
-        error.errors?.[0]?.message || "Login failed. Please try again.";
-      setErrors({ general: message });
+      console.log("sign up error: ", error.errors);
     }
   };
 
-  const handleVerification = async (e) => {
+  const handleSignUpVerification = async (e) => {
     e.preventDefault();
     try {
-      const completeSignIn = await signIn.attemptFirstFactor({
-        strategy: "email_code",
+      const completeSignUp = await signUp.attemptEmailAddressVerification({
         code,
       });
-      //
-      if (completeSignIn.status === "complete") {
-        await setActive({ session: completeSignIn.createdSessionId });
+
+      if (completeSignUp.status === "complete") {
+        await setActive({ session: completeSignUp.createdSessionId });
         setMessage("Email verified successfully!");
         navigate("/post-auth");
-      } else {
-        setError("Unexpected verification state");
       }
     } catch (error) {
       console.error("Verification error: ", error.errors);
@@ -109,11 +116,9 @@ const Login = () => {
     }
   };
 
-  const resendCode = async () => {
+  const resendSignUpCode = async () => {
     try {
-      await signIn.prepareFirstFactor({
-        strategy: "email_code",
-      });
+      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
       setMessage("Verification code resent to your email.");
     } catch (error) {
       console.error("Resend error:", error);
@@ -121,7 +126,23 @@ const Login = () => {
     }
   };
 
-  const handleGoogleSignIn = async () => {};
+  const handleGoogleSignIn = async () => {
+    console.log("Google sign in initiated");
+    try {
+      await signUp.authenticateWithRedirect({
+        strategy: "oauth_google",
+        redirectUrl: "/post-auth",
+        redirectUrlComplete: "/post-auth",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const toggleAuthMode = () => {
+    setIsLogin(!isLogin);
+    setErrors({});
+  };
 
   return (
     <>
@@ -144,7 +165,7 @@ const Login = () => {
                   Sapph'reFX
                 </motion.h1>
                 <p className="text-gray-600">
-                  Sign in to continue your journey
+                  Create your account to get started
                 </p>
               </div>
 
@@ -157,7 +178,7 @@ const Login = () => {
                   className="mb-3"
                 >
                   <label className="block text-sm font-medium text-gray-300 mb-3">
-                    I am a:
+                    I want to join as a:
                   </label>
                   <div className="grid grid-cols-2 gap-4">
                     <motion.button
@@ -198,6 +219,42 @@ const Login = () => {
 
               <form onSubmit={handleSubmit} className=" ">
                 {/*  */}
+
+                <div className="flex flex-col w-full">
+                  <label
+                    htmlFor="firstname"
+                    className="block text-sm font-medium text-gray-300 mb-1"
+                  >
+                    First Name
+                  </label>
+                  <input
+                    type="text"
+                    id="firstname"
+                    name="firstname"
+                    value={formData.firstname}
+                    onChange={handleChange}
+                    className="w-full border   rounded-xl px-4 py-2 text-gray-600  text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                    placeholder="Enter your First Name"
+                  />
+                </div>
+
+                <div className="flex flex-col w-full">
+                  <label
+                    htmlFor="lastname"
+                    className="block text-sm font-medium text-gray-300 mb-1"
+                  >
+                    Last Name
+                  </label>
+                  <input
+                    type="text"
+                    id="lastname"
+                    name="lastname"
+                    value={formData.lastname}
+                    onChange={handleChange}
+                    className="w-full border   rounded-xl px-4 py-2 text-gray-600  text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                    placeholder="Enter your Last Name"
+                  />
+                </div>
 
                 {/*  */}
                 <div className="flex flex-col w-full">
@@ -248,14 +305,46 @@ const Login = () => {
                   )}
                 </div>
 
-                {errors.general && <p>{errors.general}</p>}
+                <AnimatePresence>
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                  >
+                    <label
+                      htmlFor="confirmPassword"
+                      className="block text-sm font-medium text-gray-300 mb-2"
+                    >
+                      Confirm Password
+                    </label>
+                    <input
+                      type="password"
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      className={`w-full bg-gray-800 border ${
+                        errors.confirmPassword
+                          ? "border-red-500"
+                          : "border-gray-700"
+                      } rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500`}
+                      placeholder="Confirm your password"
+                    />
+                    {errors.confirmPassword && (
+                      <p className="mt-1 text-sm text-red-400">
+                        {errors.confirmPassword}
+                      </p>
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   type="submit"
                   className="w-full py-3 px-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-medium rounded-xl hover:from-cyan-600 hover:to-blue-600 transition-all"
                 >
-                  Sign In
+                  Create Account
                 </motion.button>
               </form>
 
@@ -294,13 +383,13 @@ const Login = () => {
 
               <div className="text-center mt-6">
                 <p className="text-gray-300">
-                  Don't have an account?
+                  Already have an account?
                   <button
                     type="button"
-                    onClick={() => navigate("/auth")}
+                    onClick={() => navigate("/login")}
                     className="text-cyan-400 hover:text-cyan-300 font-medium"
                   >
-                    Sign Up
+                    Sign In
                   </button>
                 </p>
               </div>
@@ -313,11 +402,11 @@ const Login = () => {
         ) : (
           <EmailVerification
             code={code}
-            resendCode={resendCode}
             setCode={setCode}
-            error={error}
+            handleVerification={handleSignUpVerification} // ✅ renamed
+            resendCode={resendSignUpCode}
             message={message}
-            handleVerification={handleVerification}
+            error={error}
           />
         )}
       </section>
@@ -325,4 +414,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AuthPage;

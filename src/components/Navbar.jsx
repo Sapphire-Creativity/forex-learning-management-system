@@ -9,6 +9,7 @@ import {
   FaUserFriends,
   FaQuoteRight,
 } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const navItems = [
   { id: "home", title: "Home", icon: <FaHome className="w-4 h-4" /> },
@@ -27,6 +28,7 @@ const navItems = [
 ];
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState(false);
   const [activeMenu, setActiveMenu] = useState("home");
@@ -103,7 +105,7 @@ const Navbar = () => {
           </ul>
 
           {/* CTA */}
-          <button className="btn btn-primary">
+          <button onClick={() => navigate("/auth")} className="btn btn-primary">
             Get Started <IoIosSend className="text-xl ml-2" />
           </button>
         </div>
