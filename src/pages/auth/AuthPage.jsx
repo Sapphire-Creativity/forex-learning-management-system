@@ -3,6 +3,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useSignUp } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import EmailVerification from "../../components/EmailVerification";
+import { FaUser } from "react-icons/fa";
+import { RiLockPasswordFill } from "react-icons/ri";
+import { MdEmail } from "react-icons/md";
+import { toast } from "react-toastify";
 
 const AuthPage = () => {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -24,6 +28,7 @@ const AuthPage = () => {
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); // ✅ loading state
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -73,6 +78,9 @@ const AuthPage = () => {
     }
 
     console.log("initialized!");
+
+    setLoading(true);
+    const toastId = toast.loading("⏳ Creating account...");
     try {
       await signUp.create({
         firstName: formData.firstname,
@@ -88,15 +96,44 @@ const AuthPage = () => {
 
       // request email verification
       await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
-      setPendingVerification(true);
+      toast.update(toastId, {
+        render: "🎉 Sign up successful 🎉 Please check your email to verify!",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
+
+      setTimeout(() => {
+        setPendingVerification(true);
+      }, 2000);
+
+      //
       console.log("process 2 executed");
     } catch (error) {
       console.log("sign up error: ", error.errors);
+      toast.update(toastId, {
+        render:
+          error.errors?.[0]?.message || "Something went wrong during signup.",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
+      const message =
+        error?.errors?.[0]?.message || "Something went wrong during signup.";
+
+      toast.error(message);
+
+      setErrors({ general: message }); // ✅ set general error
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleSignUpVerification = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
+
     try {
       const completeSignUp = await signUp.attemptEmailAddressVerification({
         code,
@@ -138,7 +175,7 @@ const AuthPage = () => {
       console.log(error);
     }
   };
-
+ 
   const toggleAuthMode = () => {
     setIsLogin(!isLogin);
     setErrors({});
@@ -152,7 +189,7 @@ const AuthPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="bg-white shadow rounded-2xl w-full max-w-md overflow-hidden"
+            className="bg-white shadow rounded-2xl w-full max-w-xl overflow-hidden"
           >
             <div className="p-8">
               <div className="text-center mb-8">
@@ -177,7 +214,7 @@ const AuthPage = () => {
                   exit={{ opacity: 0, height: 0 }}
                   className="mb-3"
                 >
-                  <label className="block text-sm font-medium text-gray-300 mb-3">
+                  <label className="block text-sm font-medium text-gray-600 mb-3">
                     I want to join as a:
                   </label>
                   <div className="grid grid-cols-2 gap-4">
@@ -190,8 +227,8 @@ const AuthPage = () => {
                       }
                       className={`py-3 rounded-xl border-2 transition-all ${
                         formData.role === "student"
-                          ? "border-cyan-400 bg-cyan-900 bg-opacity-20"
-                          : "border-gray-700 hover:border-cyan-500"
+                          ? "border-primary"
+                          : "border-gray-600 hover:border-primary"
                       }`}
                     >
                       <div className="text-2xl mb-1">🎓</div>
@@ -206,8 +243,8 @@ const AuthPage = () => {
                       }
                       className={`py-3 rounded-xl border-2 transition-all ${
                         formData.role === "mentor"
-                          ? "border-cyan-400 bg-cyan-900 bg-opacity-20"
-                          : "border-gray-700 hover:border-cyan-500"
+                          ? "border-primary"
+                          : "border-gray-600 hover:border-primary"
                       }`}
                     >
                       <div className="text-2xl mb-1">👨‍🏫</div>
@@ -220,86 +257,71 @@ const AuthPage = () => {
               <form onSubmit={handleSubmit} className=" ">
                 {/*  */}
 
-                <div className="flex flex-col w-full">
-                  <label
-                    htmlFor="firstname"
-                    className="block text-sm font-medium text-gray-300 mb-1"
-                  >
-                    First Name
-                  </label>
+                <div className="flex flex-col w-full relative">
+                  {/* Icon */}
+                  <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg" />
+
+                  {/* Input */}
                   <input
                     type="text"
                     id="firstname"
                     name="firstname"
                     value={formData.firstname}
                     onChange={handleChange}
-                    className="w-full border   rounded-xl px-4 py-2 text-gray-600  text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                    className="w-full border rounded-xl p-4 pl-10 text-gray-500 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
                     placeholder="Enter your First Name"
                   />
                 </div>
 
-                <div className="flex flex-col w-full">
-                  <label
-                    htmlFor="lastname"
-                    className="block text-sm font-medium text-gray-300 mb-1"
-                  >
-                    Last Name
-                  </label>
+                {/* Last Name */}
+                <div className="flex flex-col w-full relative">
+                  <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg" />
                   <input
                     type="text"
                     id="lastname"
                     name="lastname"
                     value={formData.lastname}
                     onChange={handleChange}
-                    className="w-full border   rounded-xl px-4 py-2 text-gray-600  text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                    className="w-full border rounded-xl p-4 pl-10 text-gray-500 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
                     placeholder="Enter your Last Name"
                   />
                 </div>
 
-                {/*  */}
-                <div className="flex flex-col w-full">
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-gray-300 mb-1"
-                  >
-                    Email Address
-                  </label>
+                {/* Email */}
+                <div className="flex flex-col w-full relative mt-4">
+                  <MdEmail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg" />
                   <input
                     type="email"
                     id="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className={`w-full border ${
-                      errors.email ? "border-red-500" : "border-gray-700"
-                    } rounded-xl px-4 py-2 text-gray-600  text-sm focus:outline-none focus:ring-1 focus:ring-primary`}
+                    className={`w-full border text-gray-500 rounded-xl p-4 pl-10 text-sm focus:outline-none focus:ring-1 focus:ring-primary ${
+                      errors.email ? "border-red-500" : "border-gray-500"
+                    }`}
                     placeholder="Enter your email"
                   />
                   {errors.email && (
-                    <p className="mt-1 text-sm text-red-400">{errors.email}</p>
+                    <p className="mt-1 text-xs text-red-400">{errors.email}</p>
                   )}
                 </div>
 
-                <div>
-                  <label
-                    htmlFor="password"
-                    className="block text-sm font-medium text-gray-300 mb-1"
-                  >
-                    Password
-                  </label>
+                {/* Password */}
+                <div className="flex flex-col w-full relative mt-4">
+                  <RiLockPasswordFill className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg" />
                   <input
                     type="password"
                     id="password"
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    className={`w-full bg-gray-800 border ${
-                      errors.password ? "border-red-500" : "border-gray-700"
-                    } rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500`}
+                    className={`w-full border rounded-xl p-4 pl-10 text-sm text-gray-500 focus:outline-none focus:ring-1 focus:ring-primary ${
+                      errors.password ? "border-red-500" : "border-gray-500"
+                    }`}
                     placeholder="Enter your password"
                   />
                   {errors.password && (
-                    <p className="mt-1 text-sm text-red-400">
+                    <p className="mt-1 text-xs text-red-400">
                       {errors.password}
                     </p>
                   )}
@@ -310,41 +332,71 @@ const AuthPage = () => {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
+                    className="flex flex-col w-full relative mt-4"
                   >
-                    <label
-                      htmlFor="confirmPassword"
-                      className="block text-sm font-medium text-gray-300 mb-2"
-                    >
-                      Confirm Password
-                    </label>
+                    <RiLockPasswordFill className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg" />
                     <input
                       type="password"
                       id="confirmPassword"
                       name="confirmPassword"
                       value={formData.confirmPassword}
                       onChange={handleChange}
-                      className={`w-full bg-gray-800 border ${
+                      className={`w-full border pl-10 text-sm ${
                         errors.confirmPassword
                           ? "border-red-500"
-                          : "border-gray-700"
-                      } rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500`}
+                          : "border-gray-500"
+                      } rounded-xl p-4 text-gray-500 focus:outline-none focus:ring-1 focus:ring-primary`}
                       placeholder="Confirm your password"
                     />
                     {errors.confirmPassword && (
-                      <p className="mt-1 text-sm text-red-400">
+                      <p className="mt-1 text-xs text-red-400">
                         {errors.confirmPassword}
                       </p>
                     )}
                   </motion.div>
                 </AnimatePresence>
 
+                {/*  */}
+                {errors.general && (
+                  <p className="text-red-500 text-xs mt-1">{errors.general}</p>
+                )}
+
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   type="submit"
-                  className="w-full py-3 px-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-medium rounded-xl hover:from-cyan-600 hover:to-blue-600 transition-all"
+                  disabled={loading}
+                  className="w-full p-4 bg-primary   text-white font-medium rounded-xl hover:bg-primary-dark transition-all duration-700"
+                  // className={`w-full flex items-center justify-center p-2 rounded text-white ${
+                  //   loading
+                  //     ? "bg-gray-400 cursor-not-allowed"
+                  //     : "bg-blue-600 hover:bg-blue-700"
+                  // }`}
                 >
-                  Create Account
+                  {loading ? (
+                    <svg
+                      className="animate-spin h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v8z"
+                      ></path>
+                    </svg>
+                  ) : (
+                    "Sign Up"
+                  )}
                 </motion.button>
               </form>
 
@@ -381,13 +433,13 @@ const AuthPage = () => {
                 Continue with Google
               </motion.button>
 
-              <div className="text-center mt-6">
-                <p className="text-gray-300">
+              <div className="text-center ">
+                <p className="text-gray-600 text-sm">
                   Already have an account?
                   <button
                     type="button"
                     onClick={() => navigate("/login")}
-                    className="text-cyan-400 hover:text-cyan-300 font-medium"
+                    className="ml-2 text-primary font-medium"
                   >
                     Sign In
                   </button>

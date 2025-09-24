@@ -29,7 +29,7 @@ export const mentorsData = [
     "role": "Risk & Money Management Coach",
     "experience": "10+ years",
     "bio": "Michael emphasizes capital preservation, proper leverage, and portfolio diversification. His mentorship ensures long-term trading success.",
-    "image": "/images/mentors/michael-chen.jpg",
+    "image": "./src/assets/micheal-chen.jpg",
     "socials": {
       "linkedin": "https://linkedin.com/in/michaelchen",
       "twitter": "https://twitter.com/michaelchenfx"
@@ -37,11 +37,11 @@ export const mentorsData = [
   },
   {
     "id": 4,
-    "name": "Aisha Bello",
+    "name": "Linda Tee",
     "role": "Fundamental Analyst",
     "experience": "7+ years",
     "bio": "Aisha helps traders understand the global economy, news events, and central bank policies to make smart forex decisions.",
-    "image": "/images/mentors/aisha-bello.jpg",
+    "image": "./src/assets/linda.jpg",
     "socials": {
       "linkedin": "https://linkedin.com/in/aishabello",
       "twitter": "https://twitter.com/aishabellofx"
@@ -53,7 +53,7 @@ export const mentorsData = [
     "role": "Algo & Strategy Developer",
     "experience": "9+ years",
     "bio": "Daniel builds algorithmic trading strategies and EAs. He guides traders on automating systems and backtesting setups.",
-    "image": "/images/mentors/daniel-smith.jpg",
+    "image": "./src/assets/daniel-smith.jpg",
     "socials": {
       "linkedin": "https://linkedin.com/in/danielsmith",
       "twitter": "https://twitter.com/danielsmithfx"
@@ -77,7 +77,7 @@ export const mentorsData = [
     "role": "Commodities & Forex Strategist",
     "experience": "14+ years",
     "bio": "David connects forex trading with commodities and indices, helping traders diversify and understand cross-market correlations.",
-    "image": "/images/mentors/david-johnson.jpg",
+    "image": "./src/assets/david.jpg",
     "socials": {
       "linkedin": "https://linkedin.com/in/davidjohnson",
       "twitter": "https://twitter.com/davidjohnsonfx"
@@ -89,7 +89,7 @@ export const mentorsData = [
     "role": "Forex Educator",
     "experience": "6+ years",
     "bio": "Priya simplifies complex forex strategies into beginner-friendly lessons. She mentors new traders in building strong foundations.",
-    "image": "./src/assets/prof-6.jepg",
+    "image": "./src/assets/priya.jpeg",
     "socials": {
       "linkedin": "https://linkedin.com/in/priyasharma",
       "twitter": "https://twitter.com/priyasharmafx"
@@ -97,11 +97,11 @@ export const mentorsData = [
   },
   {
     "id": 9,
-    "name": "Ahmed Khalid",
+    "name": "Tony Johnson",
     "role": "Swing & Position Trader",
     "experience": "13+ years",
     "bio": "Ahmed specializes in swing and position trading with a focus on macroeconomic analysis and high-probability setups.",
-    "image": "/images/mentors/ahmed-khalid.jpg",
+    "image": "./src/assets/johnson.jpg",
     "socials": {
       "linkedin": "https://linkedin.com/in/ahmedkhalid",
       "twitter": "https://twitter.com/ahmedkhalidfx"
@@ -113,7 +113,7 @@ export const mentorsData = [
     "role": "Price Action Specialist",
     "experience": "9+ years",
     "bio": "Laura teaches traders how to trade naked charts using price action, market structure, and liquidity zones for precision entries.",
-    "image": "/images/mentors/laura-green.jpg",
+    "image": "./src/assets/laura.jpg",
     "socials": {
       "linkedin": "https://linkedin.com/in/lauragreen",
       "twitter": "https://twitter.com/lauragreenfx"

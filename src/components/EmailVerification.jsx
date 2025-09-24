@@ -9,33 +9,49 @@ const EmailVerification = ({
   error, // error messages
 }) => {
   return (
-    <div className="flex flex-col max-w-3xl">
-      <form onSubmit={handleVerification}>
+    <div className="flex flex-col max-w-4xl">
+      <h3 className="text-primary text-2xl md:text-3xl font-bold font-raleway text-center">
+        Check Your Email!
+      </h3>
+      <p className="text-gray-600 text-xs mt-1 text-center">
+        Verification code has been send to your email
+      </p>
+      <form
+        onSubmit={handleVerification}
+        className="flex flex-col items-center justify-center"
+      >
         <input
           type="text"
           value={code}
           onChange={(e) => setCode(e.target.value)}
           required
-          className="w-full border rounded-xl px-4 py-2 text-gray-600 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+          className="mt-3 w-full border rounded-xl p-4 text-gray-600 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
           placeholder="Enter verification code"
         />
 
-        <div className="flex items-center gap-3 mt-3">
-          <button type="submit" className="btn btn-primary">
+        <div className="flex items-center justify-center w-full gap-3 mt-2">
+          <button
+            type="submit"
+            className="w-full p-4 bg-primary text-xs  text-white font-medium rounded-xl hover:bg-primary-dark transition-all duration-700"
+          >
             Verify Email
           </button>
 
           <button
             type="button"
             onClick={resendCode}
-            className="btn btn-secondary"
+            className="w-full p-4 border border-primary hover:border-0 bg-white text-xs  text-primary font-medium rounded-xl hover:bg-primary hover:text-white transition-all duration-700"
           >
             Resend Code
           </button>
         </div>
 
-        {error && <p className="text-red-500 mt-2">{error}</p>}
-        {message && <p className="text-green-500 mt-2">{message}</p>}
+        {error && (
+          <p className="text-red-500 text-xs text-center mt-1">{error}</p>
+        )}
+        {message && (
+          <p className="text-green-500 text-xs text-center mt-1">{message}</p>
+        )}
       </form>
     </div>
   );

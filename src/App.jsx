@@ -12,6 +12,7 @@ import StudentRequest from "../src/pages/student/StudentRequest";
 import StudentProfile from "../src/pages/student/StudentProfile";
 import StudentCourses from "../src/pages/student/StudentCourses";
 import StudentQuizzes from "../src/pages/student/StudentQuizzes";
+import StudentChatroom from "../src/pages/student/StudentChatroom";
 
 // Mentor
 import MentorLayout from "../src/layout/MentorLayout";
@@ -20,6 +21,7 @@ import MentorRequest from "../src/pages/mentor/MentorRequest";
 import MentorProfile from "../src/pages/mentor/MentorProfile";
 import MentorCourses from "../src/pages/mentor/MentorCourses";
 import MentorQuizzes from "../src/pages/mentor/MentorQuizzes";
+import MentorChatroom from "../src/pages/mentor/MentorChatroom";
 
 import Navbar from "./components/Navbar";
 import OnboardingPage from "./pages/Onboarding";
@@ -31,16 +33,56 @@ import {
   RedirectToSignIn,
   useUser,
 } from "@clerk/clerk-react";
+import EmailVerification from "./components/EmailVerification";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // 🔒 ProtectedRoute component
-const ProtectedRoute = ({ children, role }) => {
-  const { user } = useUser();
+// 🔒 Fixed ProtectedRoute component
+const ProtectedRoute = ({ children, role, requireAuth = true }) => {
+  const { isLoaded, isSignedIn, user } = useUser();
 
-  if (!user) return <Navigate to="/login" replace />;
+  // Show loading while Clerk is initializing
+  // if (!isLoaded) {
+  //   return (
+  //     <div className="flex items-center justify-center h-screen">
+  //       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+  //     </div>
+  //   );
+  // }
 
-  // role-based guard
-  if (role && user?.unsafeMetadata?.role !== role) {
-    return <AuthPage />; // fallback if wrong role
+  // If this route requires authentication but user is not signed in
+  if (requireAuth && !isSignedIn) {
+    return <Navigate to="/login" replace />;
+  }
+
+  // If this route should NOT be accessible to authenticated users (auth pages)
+  if (!requireAuth && isSignedIn) {
+    // Redirect to appropriate dashboard based on user's actual role
+    const userRole = user?.unsafeMetadata?.role;
+    if (userRole === "mentor") {
+      return <Navigate to="/mentor" replace />;
+    } else if (userRole === "student") {
+      return <Navigate to="/student" replace />;
+    } else {
+      return <Navigate to="/auth" replace />;
+    }
+  }
+
+  // Role-based protection for authenticated users
+  if (requireAuth && role && user?.unsafeMetadata?.role !== role) {
+    // User is authenticated but doesn't have the required role
+    const userRole = user?.unsafeMetadata?.role;
+
+    // Redirect user to their actual dashboard
+    if (userRole === "mentor") {
+      return <Navigate to="/mentor" replace />;
+    } else if (userRole === "student") {
+      return <Navigate to="/student" replace />;
+    } else {
+      // User has no role assigned, send to role selection
+      return <Navigate to="/auth" replace />;
+    }
   }
 
   return children;
@@ -49,45 +91,69 @@ const ProtectedRoute = ({ children, role }) => {
 const App = () => {
   return (
     <>
-      {/* Optional: global navbar */}
-      {/* <Navbar /> */}
-
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <Routes>
         {/* Public routes */}
         <Route index element={<Home />} />
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
-        <Route path="auth" element={<AuthPage />} />
 
-        {/* Auth-related routes */}
+        {/* Auth routes - protected from authenticated users */}
+        <Route
+          path="login"
+          element={
+            <ProtectedRoute requireAuth={false}>
+              <Login />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="register"
+          element={
+            <ProtectedRoute requireAuth={false}>
+              <Register />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="auth"
+          element={
+            <ProtectedRoute requireAuth={false}>
+              <AuthPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route path="verify-email" element={<EmailVerification />} />
+
+        {/* Auth-related routes - require authentication */}
         <Route
           path="post-auth"
           element={
-            <>
-              <SignedIn>
-                <PostAuth />
-              </SignedIn>
-              <SignedOut>
-                <Navigate to="/login" replace />
-              </SignedOut>
-            </>
+            <ProtectedRoute>
+              <PostAuth />
+            </ProtectedRoute>
           }
         />
         <Route
           path="onboarding"
           element={
-            <>
-              <SignedIn>
-                <OnboardingPage />
-              </SignedIn>
-              <SignedOut>
-                <Navigate to="/login" replace />
-              </SignedOut>
-            </>
+            <ProtectedRoute>
+              <OnboardingPage />
+            </ProtectedRoute>
           }
         />
 
-        {/* Student Dashboard */}
+        {/* Student Dashboard - requires student role */}
         <Route
           path="/student"
           element={
@@ -101,9 +167,10 @@ const App = () => {
           <Route path="student-quizzes" element={<StudentQuizzes />} />
           <Route path="student-request" element={<StudentRequest />} />
           <Route path="student-profile" element={<StudentProfile />} />
+          <Route path="student-chatroom" element={<StudentChatroom />} />
         </Route>
 
-        {/* Mentor Dashboard */}
+        {/* Mentor Dashboard - requires mentor role */}
         <Route
           path="/mentor"
           element={
@@ -116,6 +183,7 @@ const App = () => {
           <Route path="mentor-courses" element={<MentorCourses />} />
           <Route path="mentor-quizzes" element={<MentorQuizzes />} />
           <Route path="mentor-request" element={<MentorRequest />} />
+          <Route path="mentor-chatroom" element={<MentorChatroom />} />
           <Route path="mentor-profile" element={<MentorProfile />} />
         </Route>
 
@@ -125,5 +193,4 @@ const App = () => {
     </>
   );
 };
-
 export default App;

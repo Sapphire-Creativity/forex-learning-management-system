@@ -59,8 +59,8 @@ const MentorsSection = () => {
                   className="w-full h-[400px] object-cover transition-transform duration-700 group-hover:scale-110"
                 />
 
-                {/* Overlay on Hover */}
-                <div className="absolute inset-0 bg-black bg-opacity-90 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                {/* Reduced opacity overlay */}
+                <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-40 transition-opacity duration-700"></div>
 
                 {/* Info details (Hidden by default, slides up on hover) */}
                 <div className="absolute bottom-[-120%] left-4 right-4 transition-all duration-700 group-hover:bottom-4 shadow-lg">

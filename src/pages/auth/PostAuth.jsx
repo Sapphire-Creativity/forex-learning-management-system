@@ -1,12 +1,15 @@
 import { useUser } from "@clerk/clerk-react";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Loader2 } from "lucide-react"; // spinner icon
 
 const PostAuth = () => {
   const { isLoaded, user } = useUser();
   const navigate = useNavigate();
   const [progress, setProgress] = useState(0);
 
+  // Animate progress
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress((old) => {
@@ -14,47 +17,95 @@ const PostAuth = () => {
           clearInterval(interval);
           return 100;
         }
-        return old + 10;
+        return old + 5;
       });
-    }, 150);
+    }, 120);
     return () => clearInterval(interval);
   }, []);
 
+  // Redirect after progress completes
   useEffect(() => {
-    if (!isLoaded) return;
+    if (!isLoaded || progress < 100) return;
 
-    if (!user) {
-      navigate("/login");
-      return;
-    }
-
-    const role = user?.unsafeMetadata?.role;
-    const onboarded = user?.unsafeMetadata?.onboarded;
-
-    if (role === "mentor") {
-      navigate("/mentor");
-    } else if (role === "student") {
-      if (!onboarded) {
-        navigate("/onboarding");
-      } else {
-        navigate("/student");
+    const timer = setTimeout(() => {
+      if (!user) {
+        navigate("/login", { replace: true });
+        return;
       }
-    } else {
-      navigate("/auth");
-    }
-  }, [isLoaded, user, navigate]);
+
+      const emailVerified =
+        user?.primaryEmailAddress?.verification?.status === "verified";
+
+      if (!emailVerified) {
+        navigate("/verify-email", { replace: true });
+        return;
+      }
+
+      const role = user?.unsafeMetadata?.role;
+      const onboarded = user?.unsafeMetadata?.onboarded;
+
+      if (role === "mentor") {
+        navigate("/mentor", { replace: true });
+      } else if (role === "student") {
+        if (!onboarded) {
+          navigate("/onboarding", { replace: true });
+        } else {
+          navigate("/student", { replace: true });
+        }
+      } else {
+        navigate("/auth", { replace: true });
+      }
+    }, 600); // Delay so splash completes
+    return () => clearTimeout(timer);
+  }, [isLoaded, progress, user, navigate]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen text-center px-6">
-      <div className="w-full max-w-md bg-gray-200 rounded-full h-4 mb-4 overflow-hidden">
-        <div
-          className="bg-blue-500 h-4 rounded-full transition-all duration-300"
-          style={{ width: `${progress}%` }}
-        ></div>
+    <div className="flex flex-col items-center justify-center h-screen w-full bg-gradient-to-br from-primary to-primary-dark text-white">
+      <motion.h1
+        className="text-4xl md:text-5xl font-bold mb-6 tracking-wide"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
+        Sapph'reFX
+      </motion.h1>
+
+      {/* Spinner */}
+      <motion.div
+        className="flex items-center justify-center mb-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, rotate: 360 }}
+        transition={{
+          opacity: { duration: 0.6 },
+          rotate: { repeat: Infinity, duration: 1, ease: "linear" },
+        }}
+      >
+        <Loader2 size={50} className="text-white" />
+      </motion.div>
+
+      {/* Progress Bar */}
+      <div className="w-64 bg-white/20 rounded-full h-2 mb-4 overflow-hidden shadow-lg">
+        <motion.div
+          className="h-2 bg-gradient-to-r from-green-400 via-yellow-400 to-red-500"
+          initial={{ width: "0%" }}
+          animate={{ width: `${progress}%` }}
+          transition={{ ease: "easeInOut", duration: 0.3 }}
+        />
       </div>
-      <p className="text-gray-600 text-lg font-medium">
-        Redirecting... {progress}%
-      </p>
+
+      {/* Redirect Text */}
+      <motion.p
+        className="text-white/90 text-lg font-medium"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{
+          duration: 0.8,
+          repeat: Infinity,
+          repeatType: "reverse",
+        }}
+      >
+        Loading... {progress}%
+      </motion.p>
     </div>
   );
 };
