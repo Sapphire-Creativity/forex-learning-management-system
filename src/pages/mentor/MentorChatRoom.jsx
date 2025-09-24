@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const MentorChatRoom = () => {
-  return (
-    <div>MentorChatRoom</div>
-  )
-}
+  return <div>MentorChatRoom</div>;
+};
 
-export default MentorChatRoom
+export default MentorChatRoom;
