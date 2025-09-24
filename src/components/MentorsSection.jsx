@@ -21,7 +21,7 @@ const MentorsSection = () => {
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="font-raleway text-4xl font-bold md:text-5xl text-gray-800  mb-6"
+          className="font-raleway text-4xl font-bold md:text-5xl text-gray-800  mb-3"
         >
           Meet Your <span className="text-primary">Mentors</span>
         </motion.h2>
@@ -29,7 +29,7 @@ const MentorsSection = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-gray-600 mb-10 max-w-2xl mx-auto"
+          className="text-xs md:text-sm text-gray-600 mb-10 max-w-2xl mx-auto"
         >
           Mentors with practical experience
         </motion.p>
@@ -49,10 +49,12 @@ const MentorsSection = () => {
           navigation={{ nextEl: ".swiper-next", prevEl: ".swiper-prev" }}
           modules={[Autoplay, Navigation]}
           className="mySwiper"
+          loop={true}
+          
         >
           {mentorsData.map((data) => (
             <SwiperSlide key={data.id}>
-              <div className="group relative rounded-lg overflow-hidden">
+              <div className="group relative rounded-lg overflow-hidden w-3xl">
                 <img
                   src={data.image}
                   alt={data.name}
@@ -64,7 +66,7 @@ const MentorsSection = () => {
 
                 {/* Info details (Hidden by default, slides up on hover) */}
                 <div className="absolute bottom-[-120%] left-4 right-4 transition-all duration-700 group-hover:bottom-4 shadow-lg">
-                  <span className="bg-primary text-white py-2 px-6 rounded-tr-lg rounded-tl-lg">
+                  <span className="bg-primary text-xs text-white py-2 px-6 rounded-tr-lg rounded-tl-lg">
                     {data.role}
                   </span>
 

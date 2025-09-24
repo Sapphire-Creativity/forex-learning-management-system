@@ -30,8 +30,8 @@ export default function Footer() {
             <div className="absolute top-0 left-0 w-full h-full pattern-dots pattern-blue-500 pattern-bg-white pattern-size-4 pattern-opacity-20"></div>
           </div>
 
-          <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-6 relative z-10">
-            <div className="text-center lg:text-left">
+          <div className="flex flex-col md:flex-row items-center justify-center lg:justify-between gap-6 relative z-10">
+            <div className="text-center md:text-left">
               <h4 className="text-2xl font-bold text-white mb-2">
                 Join Our Learning Community
               </h4>
@@ -41,7 +41,7 @@ export default function Footer() {
               </p>
             </div>
 
-            <div className="w-full lg:w-auto flex-shrink-0">
+            <div className="">
               <form className="w-full">
                 <div className="flex flex-col justify-center sm:flex-row items-center gap-3">
                   <div className="relative flex-grow">
@@ -66,7 +66,7 @@ export default function Footer() {
         </motion.div>
 
         {/* Main Footer Content - Creative Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 mb-8">
           {/* Brand Section - Takes full width on mobile, 5 cols on desktop */}
           <div className="md:col-span-5">
             <motion.div
@@ -76,20 +76,18 @@ export default function Footer() {
               viewport={{ once: true }}
               className="flex flex-col h-full"
             >
-              <h3 className="text-2xl font-bold text-blue-700 mb-4 flex items-center">
+              <h3 className="text-2xl font-bold text-blue-700 mb-2 flex items-center">
                 <span className="text-primary">Sapph'reFX</span>
-                <span className="ml-2 text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
-                  Learning
-                </span>
+               
               </h3>
-              <p className="text-gray-600 mb-6 max-w-md">
+              <p className="text-xs md:text-sm text-gray-600 mb-6 max-w-md">
                 Empowering you to grow with real-time insights, mentorship, and
                 transformative learning experiences.
               </p>
 
               {/* Social Media - Moved to brand section */}
               <div className="mt-auto">
-                <h4 className="font-semibold text-gray-800 mb-3">
+                <h4 className="text-xs md:text-sm font-semibold text-gray-800 mb-3">
                   Connect With Us
                 </h4>
                 <div className="flex gap-3">
@@ -103,7 +101,7 @@ export default function Footer() {
                       key={idx}
                       href="#"
                       whileHover={{ y: -3 }}
-                      className={`w-10 h-10 flex items-center justify-center rounded-lg bg-white border border-gray-200 text-gray-600 ${color} transition-all duration-200 shadow-sm hover:shadow-md`}
+                      className={`w-10 h-10 flex items-center justify-center rounded-full bg-white border border-gray-200 text-gray-600 ${color} transition-all duration-200 shadow-sm hover:shadow-md`}
                     >
                       <Icon size={16} />
                     </motion.a>
@@ -123,7 +121,7 @@ export default function Footer() {
             >
               <h4 className="font-semibold text-gray-800 mb-4 text-lg relative inline-block">
                 Explore
-                <span className="absolute -bottom-1 left-0 w-1/2 h-0.5 bg-blue-500 rounded-full"></span>
+                <span className="absolute -bottom-1 left-0 w-1/2 h-0.5 bg-primary rounded-full"></span>
               </h4>
               <ul className="space-y-3">
                 {[
@@ -137,9 +135,9 @@ export default function Footer() {
                   <li key={idx}>
                     <a
                       href="#"
-                      className="text-gray-600 hover:text-blue-600 transition-colors flex items-center group"
+                      className="text-xs md:text-sm text-gray-600 hover:text-primary transition-colors flex items-center group"
                     >
-                      <span className="w-1.5 h-1.5 bg-blue-200 rounded-full mr-3 group-hover:bg-blue-600 transition-colors"></span>
+                      <span className="w-1.5 h-1.5 bg-blue-200 rounded-full mr-3 group-hover:bg-primary transition-colors"></span>
                       {item}
                     </a>
                   </li>
@@ -158,7 +156,7 @@ export default function Footer() {
             >
               <h4 className="font-semibold text-gray-800 mb-4 text-lg relative inline-block">
                 Resources
-                <span className="absolute -bottom-1 left-0 w-1/2 h-0.5 bg-purple-500 rounded-full"></span>
+                <span className="absolute -bottom-1 left-0 w-1/2 h-0.5 bg-secondary rounded-full"></span>
               </h4>
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -168,9 +166,9 @@ export default function Footer() {
                         <li key={idx}>
                           <a
                             href="#"
-                            className="text-gray-600 hover:text-purple-600 transition-colors flex items-center group"
+                            className="text-xs md:text-sm text-gray-600 hover:text-secondary transition-colors flex items-center group"
                           >
-                            <span className="w-1.5 h-1.5 bg-purple-200 rounded-full mr-3 group-hover:bg-purple-600 transition-colors"></span>
+                            <span className="w-1.5 h-1.5 bg-secondary/20 rounded-full mr-3 group-hover:bg-secondary transition-colors"></span>
                             {item}
                           </a>
                         </li>
@@ -189,9 +187,9 @@ export default function Footer() {
                       <li key={idx}>
                         <a
                           href="#"
-                          className="text-gray-600 hover:text-purple-600 transition-colors flex items-center group"
+                          className="text-xs md:text-sm text-gray-600 hover:text-primary transition-colors flex items-center group"
                         >
-                          <span className="w-1.5 h-1.5 bg-purple-200 rounded-full mr-3 group-hover:bg-purple-600 transition-colors"></span>
+                          <span className="w-1.5 h-1.5 bg-primary/20 rounded-full mr-3 group-hover:bg-primary transition-colors"></span>
                           {item}
                         </a>
                       </li>

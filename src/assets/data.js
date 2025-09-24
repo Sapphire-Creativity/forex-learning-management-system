@@ -1,3 +1,15 @@
+import ImageOne from "../assets/prof-4.jpg"
+import ImageTwo from "../assets/prof-2.jpg"
+import ImageThree from "../assets/micheal-chen.jpg"
+import ImageFour from "../assets/linda.jpg"
+import ImageFive from  "../assets/daniel-smith.jpg"
+import ImageSix from "../assets/prof-1.jpg"
+import ImageSeven from "../assets/david.jpg"
+import ImageEight from "../assets/priya.jpeg"
+import ImageNine from "../assets/johnson.jpg"
+import ImageTen from "../assets/laura.jpg"
+
+
 export const mentorsData = [
   {
     "id": 1,
@@ -5,7 +17,7 @@ export const mentorsData = [
     "role": "Senior Forex Mentor",
     "experience": "12+ years",
     "bio": "Specialist in supply-demand trading, liquidity grabs, and risk management. James has trained hundreds of traders to build consistent strategies.",
-    "image": "./src/assets/prof-4.jpg",
+    "image": ImageOne,
     "socials": {
       "linkedin": "https://linkedin.com/in/jamescarter",
       "twitter": "https://twitter.com/jamescarterfx"
@@ -17,7 +29,7 @@ export const mentorsData = [
     "role": "Technical Analyst",
     "experience": "8+ years",
     "bio": "Sophia focuses on technical analysis, candlestick psychology, and smart money concepts. She helps traders master chart reading and timing.",
-    "image": "./src/assets/prof-2.jpg",
+    "image": ImageTwo,
     "socials": {
       "linkedin": "https://linkedin.com/in/sophiamartinez",
       "twitter": "https://twitter.com/sophiamartinezfx"
@@ -29,7 +41,7 @@ export const mentorsData = [
     "role": "Risk & Money Management Coach",
     "experience": "10+ years",
     "bio": "Michael emphasizes capital preservation, proper leverage, and portfolio diversification. His mentorship ensures long-term trading success.",
-    "image": "./src/assets/micheal-chen.jpg",
+    "image": ImageThree,
     "socials": {
       "linkedin": "https://linkedin.com/in/michaelchen",
       "twitter": "https://twitter.com/michaelchenfx"
@@ -41,7 +53,7 @@ export const mentorsData = [
     "role": "Fundamental Analyst",
     "experience": "7+ years",
     "bio": "Aisha helps traders understand the global economy, news events, and central bank policies to make smart forex decisions.",
-    "image": "./src/assets/linda.jpg",
+    "image": ImageFour,
     "socials": {
       "linkedin": "https://linkedin.com/in/aishabello",
       "twitter": "https://twitter.com/aishabellofx"
@@ -53,7 +65,7 @@ export const mentorsData = [
     "role": "Algo & Strategy Developer",
     "experience": "9+ years",
     "bio": "Daniel builds algorithmic trading strategies and EAs. He guides traders on automating systems and backtesting setups.",
-    "image": "./src/assets/daniel-smith.jpg",
+    "image": ImageFive,
     "socials": {
       "linkedin": "https://linkedin.com/in/danielsmith",
       "twitter": "https://twitter.com/danielsmithfx"
@@ -65,7 +77,7 @@ export const mentorsData = [
     "role": "Market Psychology Coach",
     "experience": "11+ years",
     "bio": "Elena trains traders on discipline, emotional control, and mindset—key factors in becoming consistently profitable.",
-    "image": "./src/assets/prof-1.jpg",
+    "image":  ImageSix,
     "socials": {
       "linkedin": "https://linkedin.com/in/elenapetrova",
       "twitter": "https://twitter.com/elenapetrofx"
@@ -77,7 +89,7 @@ export const mentorsData = [
     "role": "Commodities & Forex Strategist",
     "experience": "14+ years",
     "bio": "David connects forex trading with commodities and indices, helping traders diversify and understand cross-market correlations.",
-    "image": "./src/assets/david.jpg",
+    "image": ImageSeven ,
     "socials": {
       "linkedin": "https://linkedin.com/in/davidjohnson",
       "twitter": "https://twitter.com/davidjohnsonfx"
@@ -89,7 +101,7 @@ export const mentorsData = [
     "role": "Forex Educator",
     "experience": "6+ years",
     "bio": "Priya simplifies complex forex strategies into beginner-friendly lessons. She mentors new traders in building strong foundations.",
-    "image": "./src/assets/priya.jpeg",
+    "image": ImageEight,
     "socials": {
       "linkedin": "https://linkedin.com/in/priyasharma",
       "twitter": "https://twitter.com/priyasharmafx"
@@ -101,7 +113,7 @@ export const mentorsData = [
     "role": "Swing & Position Trader",
     "experience": "13+ years",
     "bio": "Ahmed specializes in swing and position trading with a focus on macroeconomic analysis and high-probability setups.",
-    "image": "./src/assets/johnson.jpg",
+    "image": ImageNine,
     "socials": {
       "linkedin": "https://linkedin.com/in/ahmedkhalid",
       "twitter": "https://twitter.com/ahmedkhalidfx"
@@ -113,7 +125,7 @@ export const mentorsData = [
     "role": "Price Action Specialist",
     "experience": "9+ years",
     "bio": "Laura teaches traders how to trade naked charts using price action, market structure, and liquidity zones for precision entries.",
-    "image": "./src/assets/laura.jpg",
+    "image": ImageTen,
     "socials": {
       "linkedin": "https://linkedin.com/in/lauragreen",
       "twitter": "https://twitter.com/lauragreenfx"

@@ -65,7 +65,7 @@ const TestimonialCarousel = () => {
         <h2 className="font-raleway text-4xl md:text-5xl font-bold text-gray-800 mb-4">
           What Our <span className="text-primary">Students</span> Say
         </h2>
-        <p className="text-gray-600 mb-16 max-w-2xl mx-auto">
+        <p className="text-xs md:text-sm text-gray-600 mb-16 max-w-2xl mx-auto">
           Hear from learners who have experienced growth, mentorship, and
           community through our platform.
         </p>
@@ -77,8 +77,8 @@ const TestimonialCarousel = () => {
           onMouseLeave={handleMouseLeave}
         >
           {/* Fade Overlays */}
-          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white via-white/80 to-transparent z-10"></div>
-          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white via-white/80 to-transparent z-10"></div>
+          {/* <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white via-white/80 to-transparent z-10"></div>
+          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white via-white/80 to-transparent z-10"></div> */}
 
           {/* Slider */}
           <motion.div className="flex gap-8" animate={controls}>
@@ -89,19 +89,19 @@ const TestimonialCarousel = () => {
               >
                 {/* User Info */}
                 <div className="flex flex-col items-center mb-4">
-                  <img
+                  {/* <img
                     src={t.image}
                     alt={t.name}
                     className="w-16 h-16 object-cover rounded-full border-2 border-white shadow-md mb-2"
-                  />
-                  <h4 className="font-semibold text-md text-gray-800">
+                  /> */}
+                  <h4 className="font-semibold text-md text-primary ">
                     {t.name}
                   </h4>
                   <p className="text-xs text-gray-500">{t.role}</p>
                 </div>
 
                 {/* Testimonial Text */}
-                <p className="text-gray-700 text-sm leading-relaxed italic mb-4">
+                <p className="text-gray-700 text-sm italic mb-4">
                   "{t.text}"
                 </p>
 

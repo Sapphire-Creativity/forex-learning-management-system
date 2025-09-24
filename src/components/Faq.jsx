@@ -74,7 +74,7 @@ export default function FAQ() {
           <h2 className="font-raleway text-4xl md:text-5xl font-bold text-gray-800 mb-4">
             Frequently Asked <span className="text-blue-600">Questions</span>
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto mb-8">
+          <p className="text-xs md:text-sm text-gray-600 max-w-2xl mx-auto mb-8">
             Find answers to common questions about Sapphire Learning. Can't find
             what you're looking for?
             <a href="#" className="text-blue-600 hover:underline ml-1">
@@ -89,7 +89,7 @@ export default function FAQ() {
             <input
               type="text"
               placeholder="Search questions..."
-              className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+              className="text-xs md:text-sm w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -100,7 +100,7 @@ export default function FAQ() {
             {categories.map((category) => (
               <button
                 key={category}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                className={`px-4 py-2 rounded-full text-xs md:text-sm font-medium transition-all ${
                   activeCategory === category
                     ? "bg-blue-600 text-white"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
@@ -129,10 +129,10 @@ export default function FAQ() {
                   className="w-full flex justify-between items-center p-6 text-left"
                 >
                   <div className="flex-1">
-                    <span className="font-semibold text-gray-800 text-lg">
+                    <span className="text-xs md:text-sm font-semibold text-gray-800 text-lg">
                       {faq.question}
                     </span>
-                    <span className="block mt-1 text-xs text-blue-600 font-medium">
+                    <span className="text-xs md:text-sm block mt-1 text-xs text-blue-600 font-medium">
                       {faq.category}
                     </span>
                   </div>
@@ -154,7 +154,8 @@ export default function FAQ() {
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                     >
                       <div className="px-6 pb-6 text-gray-600 border-t border-gray-100 pt-4">
-                        {faq.answer}
+                        <p className="text-xs md:text-sm">{faq.answer}</p>
+                        
                       </div>
                     </motion.div>
                   )}
@@ -167,7 +168,7 @@ export default function FAQ() {
               <h3 className="text-lg font-medium text-gray-700">
                 No results found
               </h3>
-              <p className="text-gray-500 mt-2">
+              <p className="text-xs md:text-sm text-gray-500 mt-2">
                 Try adjusting your search or filter criteria
               </p>
             </div>
@@ -179,10 +180,10 @@ export default function FAQ() {
           <h3 className="text-xl font-semibold text-gray-800 mb-2">
             Still have questions?
           </h3>
-          <p className="text-gray-600 mb-4">
+          <p className="text-xs md:text-smtext-gray-600 mb-4">
             Our support team is here to help you
           </p>
-          <button className="px-6 py-4 btn btn-primary">
+          <button className="text-xs md:text-sm px-6 py-4 btn btn-primary">
             Contact Support
           </button>
         </div>

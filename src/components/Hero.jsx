@@ -2,6 +2,7 @@ import { ReactTyped } from "react-typed";
 import { useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import HeroImage from "../assets/chart.png"
 
 const Hero = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -120,7 +121,7 @@ const Hero = () => {
         className="absolute -bottom-0 md:-bottom-40 left-1/2 -translate-x-1/2 w-[95%] max-w-6xl"
       >
         <img
-          src="src/assets/chart.png"
+          src={HeroImage}
           alt="Forex Chart"
           className="w-full object-cover rounded-t-3xl shadow-2xl"
         />

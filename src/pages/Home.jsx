@@ -9,6 +9,7 @@ import Faq from "../components/Faq";
 import ScrollProgressCircle from "../components/ScrollProgressCircle";
 import MentorsSection from "../components/MentorsSection";
 import Navbar from "../components/Navbar";
+import ChartImage from "../assets/chart.png"
 
 const Home = () => {
   return (
@@ -24,13 +25,13 @@ const Home = () => {
       <MentorsSection />
 
       {/* Chart Section */}
-      <section className="relative h-[100vh] w-full flex flex-col items-center justify-start bg-gradient-to-b from-[rgb(248,251,255)] to-white overflow-hidden">
+      <section className="relative h-[90vh] w-full flex flex-col items-center justify-start bg-gradient-to-b from-[rgb(248,251,255)] to-white overflow-hidden">
         <div className="max-w-6xl mx-auto text-center px-6 relative z-10 pt-16">
           {/* Heading */}
-          <h2 className="font-raleway text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+          <h2 className="font-raleway text-4xl md:text-5xl font-bold text-gray-800 mb-3">
             Visualize Your <span className="text-primary">Growth</span>
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto mb-8">
+          <p className="text-xs md:text-sm text-gray-600 max-w-2xl mx-auto mb-8">
             Stay ahead in your learning journey with real-time insights, mentor
             guidance, and a seamless learning dashboard built just for you.
           </p>
@@ -62,11 +63,11 @@ const Home = () => {
             duration: 10,
             ease: "easeInOut",
           }}
-          className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-[90%] max-w-6xl"
+          className="absolute -bottom-0 left-1/2 -translate-x-1/2 w-[90%] max-w-6xl"
         >
           <div className="relative">
             <img
-              src="src/assets/chart.png"
+              src={ChartImage}
               alt="Forex Chart"
               className="w-full drop-shadow-2xl rounded-2xl backdrop-blur-md border border-white/30"
             />
