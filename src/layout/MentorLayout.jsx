@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 // import SideBar from "../components/SideBar";
-import Topbar from "../components/TopBar";
+import Topbar from "../components/Topbar";
 
 import { FiLogOut } from "react-icons/fi";
 import { NavLink, useNavigate } from "react-router-dom";
