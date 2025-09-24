@@ -21,7 +21,7 @@ import MentorRequest from "../src/pages/mentor/MentorRequest";
 import MentorProfile from "../src/pages/mentor/MentorProfile";
 import MentorCourses from "../src/pages/mentor/MentorCourses";
 import MentorQuizzes from "../src/pages/mentor/MentorQuizzes";
-import MentorChatroom from "../src/pages/mentor/MentorChatroom";
+import MentorChatroom from "../src/pages/mentor/MentorChatRoom";
 
 import Navbar from "./components/Navbar";
 import OnboardingPage from "./pages/Onboarding";
