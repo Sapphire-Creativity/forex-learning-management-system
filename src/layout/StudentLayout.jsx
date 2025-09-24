@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import SideBar from "../components/SideBar";
-import Topbar from "../components/TopBar";
+import TopBar from "../components/TopBar";
 
 
 const StudentLayout = () => {
@@ -39,7 +39,7 @@ const StudentLayout = () => {
       <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
         {/* Topbar */}
         <div className="h-16 bg-white shadow z-10 flex-shrink-0">
-          <Topbar isActive={isActive} toggleSideBar={toggleSideBar} />
+          <TopBar isActive={isActive} toggleSideBar={toggleSideBar} />
         </div>
 
         {/* Page Content */}
