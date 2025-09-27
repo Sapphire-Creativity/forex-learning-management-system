@@ -298,3 +298,14 @@ form {
   box-shadow:  0 5px 20px rgba(15, 82, 186, 0.15);
 
 }
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+
+/*  */

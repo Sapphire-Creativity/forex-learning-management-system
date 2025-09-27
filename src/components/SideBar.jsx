@@ -51,7 +51,7 @@ const SideBar = ({ isCollapsed }) => {
   return (
     <>
       <aside
-        className={`shadow relative h-full p-5 flex flex-col justify-between bg-primary-dark transition-all duration-300 ease-in-out ${
+        className={`shadow relative h-full p-2 md:p-5 flex flex-col justify-between bg-primary-dark transition-all duration-300 ease-in-out ${
           isCollapsed ? "w-20" : "w-64"
         } overflow-hidden`}
       >

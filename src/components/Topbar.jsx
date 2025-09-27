@@ -5,7 +5,7 @@ import CurrentDateTime from "../components/DateTime";
 
 const Topbar = ({ toggleSideBar, isActive }) => {
   return (
-    <header className="flex items-center justify-between bg-white  px-2 py-4 md:px-6">
+    <header className="flex items-center justify-between bg-white  p-2 md:px-6">
       {/* Left Section - Menu & DateTime */}
       <div className="flex items-center space-x-2 md:space-x-4">
         <button
@@ -22,14 +22,14 @@ const Topbar = ({ toggleSideBar, isActive }) => {
       </div>
 
       {/* Middle Section - Search (hidden on small screens) */}
-      <div className="hidden md:flex items-center bg-gray-50 rounded-full px-3 py-1.5 w-72 border border-gray-200 focus-within:border-primary transition-colors">
+      {/* <div className="hidden md:flex items-center bg-gray-50 rounded-full px-3 py-1.5 w-72 border border-gray-200 focus-within:border-primary transition-colors">
         <FiSearch className="text-gray-500 mr-2 text-xl" />
         <input
           type="text"
           placeholder="Search..."
           className="bg-transparent border-none outline-none w-full text-sm placeholder-gray-400"
         />
-      </div>
+      </div> */}
 
       {/* Right Section - Icons & Profile */}
       <div className="flex items-center space-x-3 md:space-x-4">

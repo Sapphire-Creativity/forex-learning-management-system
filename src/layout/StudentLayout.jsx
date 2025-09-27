@@ -3,9 +3,7 @@ import { Outlet } from "react-router-dom";
 import SideBar from "../components/SideBar";
 import Topbar from "../components/Topbar";
 
-
 const StudentLayout = () => {
-
   const [isActive, setIsActive] = useState(true);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
@@ -25,25 +23,25 @@ const StudentLayout = () => {
     }
   };
   return (
-   <div className="flex h-[100vh] max-h-[100vh] bg-color overflow-hidden">
+    <div className="flex h-screen bg-color overflow-hidden scrollbar-hide">
       {/* Sidebar */}
       <div
-        // className={`h-full bg-white shadow transition-all duration-300 ${
-        //   isSmallScreen ? "w-20" : isActive ? "w-40" : "w-20"
-        // } flex-shrink-0`}
+      // className={`h-full bg-white shadow transition-all duration-300 ${
+      //   isSmallScreen ? "w-20" : isActive ? "w-40" : "w-20"
+      // } flex-shrink-0`}
       >
         <SideBar isCollapsed={isSmallScreen || !isActive} />
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+      <div className="flex-1 flex flex-col min-h-0 overflow-hidden scrollbar-hide">
         {/* Topbar */}
-        <div className="h-16 bg-white shadow z-10 flex-shrink-0">
+        <div className="bg-white shadow-small z-10 flex-shrink-0">
           <Topbar isActive={isActive} toggleSideBar={toggleSideBar} />
         </div>
 
         {/* Page Content */}
-        <div className="flex-1 overflow-y-auto bg-color p-4">
+        <div  className="scrollbar-hide flex-1 overflow-y-auto bg-white  p-3 md:p-6 rounded-lg border border-primary-dark/10">
           <Outlet />
         </div>
       </div>
