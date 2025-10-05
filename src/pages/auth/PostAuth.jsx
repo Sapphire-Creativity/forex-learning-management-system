@@ -2,36 +2,38 @@ import { useUser } from "@clerk/clerk-react";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Loader2 } from "lucide-react"; // spinner icon
+import { Loader2 } from "lucide-react";
 
 const PostAuth = () => {
   const { isLoaded, user } = useUser();
   const navigate = useNavigate();
   const [progress, setProgress] = useState(0);
 
-  // Animate progress
+  // Progress animation
   useEffect(() => {
     const interval = setInterval(() => {
-      setProgress((old) => {
-        if (old >= 100) {
+      setProgress((prev) => {
+        if (prev >= 100) {
           clearInterval(interval);
           return 100;
         }
-        return old + 5;
+        return prev + 5;
       });
     }, 120);
     return () => clearInterval(interval);
   }, []);
 
-  // Redirect after progress completes
   useEffect(() => {
-    if (!isLoaded || progress < 100) return;
+    const handleRedirect = async () => {
+      if (!isLoaded || progress < 100) return;
 
-    const timer = setTimeout(() => {
       if (!user) {
         navigate("/login", { replace: true });
         return;
       }
+
+      // ✅ Force latest user data
+      await user.reload();
 
       const emailVerified =
         user?.primaryEmailAddress?.verification?.status === "verified";
@@ -44,10 +46,12 @@ const PostAuth = () => {
       const role = user?.unsafeMetadata?.role;
       const onboarded = user?.unsafeMetadata?.onboarded;
 
+      console.log("🧭 role:", role, "| onboarded:", onboarded);
+
       if (role === "mentor") {
         navigate("/mentor", { replace: true });
       } else if (role === "student") {
-        if (!onboarded) {
+        if (onboarded === undefined || onboarded === false) {
           navigate("/onboarding", { replace: true });
         } else {
           navigate("/student", { replace: true });
@@ -55,7 +59,9 @@ const PostAuth = () => {
       } else {
         navigate("/auth", { replace: true });
       }
-    }, 600); // Delay so splash completes
+    };
+
+    const timer = setTimeout(handleRedirect, 600);
     return () => clearTimeout(timer);
   }, [isLoaded, progress, user, navigate]);
 
@@ -70,7 +76,6 @@ const PostAuth = () => {
         Sapph'reFX
       </motion.h1>
 
-      {/* Spinner */}
       <motion.div
         className="flex items-center justify-center mb-6"
         initial={{ opacity: 0 }}
@@ -83,7 +88,6 @@ const PostAuth = () => {
         <Loader2 size={50} className="text-white" />
       </motion.div>
 
-      {/* Progress Bar */}
       <div className="w-64 bg-white/20 rounded-full h-2 mb-4 overflow-hidden shadow-lg">
         <motion.div
           className="h-2 bg-gradient-to-r from-green-400 via-yellow-400 to-red-500"
@@ -93,7 +97,6 @@ const PostAuth = () => {
         />
       </div>
 
-      {/* Redirect Text */}
       <motion.p
         className="text-white/90 text-lg font-medium"
         initial={{ opacity: 0 }}

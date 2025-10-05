@@ -9,7 +9,7 @@ const EmailVerification = ({
   error, // error messages
 }) => {
   return (
-    <div className="flex flex-col max-w-4xl">
+    <div className="flex flex-col max-w-4xl bg-white rounded-2xl shadow p-4">
       <h3 className="text-primary text-2xl md:text-3xl font-bold font-raleway text-center">
         Check Your Email!
       </h3>

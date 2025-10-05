@@ -37,20 +37,19 @@ import {
 import EmailVerification from "./components/EmailVerification";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ForgotPassword from "./pages/ForgotPassword";
 
 // 🔒 ProtectedRoute component
 // 🔒 Fixed ProtectedRoute component
 const ProtectedRoute = ({ children, role, requireAuth = true }) => {
   const { isLoaded, isSignedIn, user } = useUser();
 
-  // Show loading while Clerk is initializing
-  // if (!isLoaded) {
-  //   return (
-  //     <div className="flex items-center justify-center h-screen">
-  //       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-  //     </div>
-  //   );
-  // }
+  // Prevent route rendering until Clerk user is fully loaded
+  if (!isLoaded) return null;
+
+  // 🚀 TEMP FIX: If we’re still waiting on PostAuth (checking role/onboarding), don’t render dashboard
+  const currentPath = window.location.pathname;
+  const isPostAuth = currentPath === "/post-auth";
 
   // If this route requires authentication but user is not signed in
   if (requireAuth && !isSignedIn) {
@@ -135,7 +134,16 @@ const App = () => {
           }
         />
 
-        <Route path="verify-email" element={<EmailVerification />} />
+        <Route
+          path="verify-email"
+          element={
+            <ProtectedRoute>
+              <EmailVerification />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route path="forgot-password" element={<ForgotPassword />} />
 
         {/* Auth-related routes - require authentication */}
         <Route

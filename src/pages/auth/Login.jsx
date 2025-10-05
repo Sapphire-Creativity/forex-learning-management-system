@@ -6,10 +6,11 @@ import EmailVerification from "../../components/EmailVerification";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { MdEmail } from "react-icons/md";
 import { toast } from "react-toastify";
+import ForgotPassword from "../ForgotPassword";
 
 const Login = () => {
   const { isLoaded, signIn, setActive } = useSignIn();
-   const { isSignedIn, user } = useUser();
+  const { isSignedIn, user } = useUser();
   const [pendingVerification, setPendingVerification] = useState(false);
   const [code, setCode] = useState("");
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
-
+  
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -57,9 +58,9 @@ const Login = () => {
       const onboarded = user.unsafeMetadata?.onboarded;
 
       if (role === "mentor") {
-        navigate("/mentor", { replace: true });
+        navigate("/post-auth", { replace: true });
       } else if (role === "student") {
-        navigate(onboarded ? "/student" : "/onboarding", { replace: true });
+        navigate("/post-auth", { replace: true });
       } else {
         navigate("/auth", { replace: true });
       }
@@ -164,7 +165,7 @@ const Login = () => {
       if (completeSignIn.status === "complete") {
         await setActive({ session: completeSignIn.createdSessionId });
         setMessage("Email verified successfully!");
-        navigate("/post-auth");
+        navigate("/post-auth", { replace: true });
       } else {
         setError("Unexpected verification state");
       }
@@ -304,7 +305,12 @@ const Login = () => {
                   )}
                 </div>
 
-                <p className="text-primary-dark text-xs">Forgot Password?</p>
+                <p
+                  onClick={() => navigate("/forgot-password")}
+                  className="text-primary-dark text-xs"
+                >
+                  Forgot Password?
+                </p>
 
                 {errors.general && (
                   <p className="mt-1 text-xs text-red-400">{errors.general}</p>

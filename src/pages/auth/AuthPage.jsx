@@ -92,6 +92,7 @@ const AuthPage = () => {
           onboarded: false,
         },
       });
+
       console.log("process 1 executed");
 
       // request email verification
@@ -141,8 +142,12 @@ const AuthPage = () => {
 
       if (completeSignUp.status === "complete") {
         await setActive({ session: completeSignUp.createdSessionId });
+
+        // 🔥 Force Clerk to sync metadata before redirecting
+        await signUp.reload();
+
         setMessage("Email verified successfully!");
-        navigate("/post-auth");
+        navigate("/post-auth", { replace: true });
       }
     } catch (error) {
       console.error("Verification error: ", error.errors);
@@ -175,7 +180,7 @@ const AuthPage = () => {
       console.log(error);
     }
   };
- 
+
   const toggleAuthMode = () => {
     setIsLogin(!isLogin);
     setErrors({});
@@ -268,6 +273,7 @@ const AuthPage = () => {
                     name="firstname"
                     value={formData.firstname}
                     onChange={handleChange}
+                    required
                     className="w-full border rounded-xl p-4 pl-10 text-gray-500 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
                     placeholder="Enter your First Name"
                   />
@@ -281,6 +287,7 @@ const AuthPage = () => {
                     id="lastname"
                     name="lastname"
                     value={formData.lastname}
+                    required
                     onChange={handleChange}
                     className="w-full border rounded-xl p-4 pl-10 text-gray-500 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
                     placeholder="Enter your Last Name"
@@ -295,6 +302,7 @@ const AuthPage = () => {
                     id="email"
                     name="email"
                     value={formData.email}
+                    required
                     onChange={handleChange}
                     className={`w-full border text-gray-500 rounded-xl p-4 pl-10 text-sm focus:outline-none focus:ring-1 focus:ring-primary ${
                       errors.email ? "border-red-500" : "border-gray-500"
@@ -313,6 +321,7 @@ const AuthPage = () => {
                     type="password"
                     id="password"
                     name="password"
+                    required
                     value={formData.password}
                     onChange={handleChange}
                     className={`w-full border rounded-xl p-4 pl-10 text-sm text-gray-500 focus:outline-none focus:ring-1 focus:ring-primary ${
@@ -339,6 +348,7 @@ const AuthPage = () => {
                       type="password"
                       id="confirmPassword"
                       name="confirmPassword"
+                      required
                       value={formData.confirmPassword}
                       onChange={handleChange}
                       className={`w-full border pl-10 text-sm ${
