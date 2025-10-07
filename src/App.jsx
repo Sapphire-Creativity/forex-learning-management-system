@@ -4,7 +4,7 @@ import Home from "../src/pages/Home";
 import Login from "../src/pages/auth/Login";
 import Register from "../src/pages/auth/Register";
 import NotFound from "../src/pages/NotFound";
-import SamplePage from "../src/pages/SamplePage";
+import SampleCoursePage from "../src/pages/SampleCoursePage";
 
 // Student
 import StudentLayout from "../src/layout/StudentLayout";
@@ -106,7 +106,7 @@ const App = () => {
       <Routes>
         {/* Public routes */}
         <Route index element={<Home />} />
-        <Route path="/sample" element={<SamplePage />} />
+        <Route path="/sample" element={<SampleCoursePage />} />
 
         {/* Auth routes - protected from authenticated users */}
         <Route
